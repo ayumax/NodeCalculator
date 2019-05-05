@@ -10,14 +10,12 @@ namespace NodeCalculator.ViewModels
     class MainViewModel : ViewModelBase
     {
         private MainModel Model;
-
-        public ReadOnlyReactiveCollection<NodeViewModel> Nodes { get; }
+        public NodeGroupViewModel NodeGroup { get; }
 
         public MainViewModel()
         {
             Model = new MainModel();
-
-            Nodes = Model.Nodes.ToReadOnlyReactiveCollection(x => new NodeViewModel(x));
+            NodeGroup = new NodeGroupViewModel(Model);
         }
 
         public override void Start()
@@ -33,10 +31,6 @@ namespace NodeCalculator.ViewModels
 
             Dispose();
 
-            foreach(var node in Nodes)
-            {
-                node.Dispose();
-            }
 
             Model.End();
         }

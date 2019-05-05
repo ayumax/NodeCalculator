@@ -20,7 +20,7 @@ namespace NodeCalculator.ViewModels
             
         }
 
-        public void Dispose()
+        public virtual void Dispose()
         {
             foreach (var disposable in container)
             {

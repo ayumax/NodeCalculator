@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
+using GongSolutions.Wpf.DragDrop;
 
 namespace NodeCalculator.ViewModels
 {
@@ -26,5 +27,7 @@ namespace NodeCalculator.ViewModels
             PositionY = InnerModel.ToReactivePropertyAsSynchronized(x => x.PositionY).AddTo(container);
             Name = InnerModel.ToReactivePropertyAsSynchronized(x => x.Name).AddTo(container);
         }
+
+
     }
 }

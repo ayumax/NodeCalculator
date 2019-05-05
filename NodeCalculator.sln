@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28803.352
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NodeCalculator", "NodeCalculator\NodeCalculator.csproj", "{AA101F6D-CB29-49A3-8C77-6742EE909AA7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NodeCalculator", "NodeCalculator\NodeCalculator.csproj", "{AA101F6D-CB29-49A3-8C77-6742EE909AA7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GongSolutions.WPF.DragDrop", "..\gong-wpf-dragdrop\src\GongSolutions.WPF.DragDrop\GongSolutions.WPF.DragDrop.csproj", "{3B2B88B0-BEEC-49A9-940A-2069E266C64A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{AA101F6D-CB29-49A3-8C77-6742EE909AA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AA101F6D-CB29-49A3-8C77-6742EE909AA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AA101F6D-CB29-49A3-8C77-6742EE909AA7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B2B88B0-BEEC-49A9-940A-2069E266C64A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B2B88B0-BEEC-49A9-940A-2069E266C64A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B2B88B0-BEEC-49A9-940A-2069E266C64A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B2B88B0-BEEC-49A9-940A-2069E266C64A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

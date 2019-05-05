@@ -21,23 +21,6 @@
             <Behaviors:CallMethodAction MethodName="End" TargetObject="{Binding}" />
         </Behaviors:EventTrigger>
     </Behaviors:Interaction.Triggers>
-    
-    <ItemsControl ItemsSource="{Binding Nodes}">
-        <ItemsControl.ItemsPanel>
-            <ItemsPanelTemplate>
-                <Canvas />
-            </ItemsPanelTemplate>
-        </ItemsControl.ItemsPanel>
-        <ItemsControl.ItemTemplate>
-            <DataTemplate>
-                <node:NodeContainer />
-            </DataTemplate>
-        </ItemsControl.ItemTemplate>
-        <ItemsControl.ItemContainerStyle>
-            <Style>
-                <Setter Property="Canvas.Top" Value="{Binding PositionY.Value}"/>
-                <Setter Property="Canvas.Left" Value="{Binding PositionX.Value}"/>
-            </Style>
-        </ItemsControl.ItemContainerStyle>
-    </ItemsControl>
+
+    <node:NodeCanvas DataContext="{Binding NodeGroup}"/>
 </Window>

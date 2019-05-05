@@ -4,6 +4,28 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <UseWPF>true</UseWPF>
+    <LangVersion>8.0</LangVersion>
+    <NullableContextOptions>enable</NullableContextOptions>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Views\Nodes\ConstantNode.xaml" />
+    <None Remove="Views\Nodes\NodeContainer.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="gong-wpf-dragdrop" Version="2.0.1" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.0.1" />
+    <PackageReference Include="ReactiveProperty" Version="5.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Views\Nodes\ConstantNode.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\Nodes\NodeContainer.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
 
 </Project>

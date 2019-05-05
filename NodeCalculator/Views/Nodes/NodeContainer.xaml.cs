@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -13,21 +11,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace NodeCalculator
+namespace NodeCalculator.Views.Nodes
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// NodeContainer.xaml の相互作用ロジック
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class NodeContainer : UserControl
     {
-        public MainWindow()
+        public NodeContainer()
         {
             InitializeComponent();
-        }
-
-        private void ButtonExit_Click(object sender, RoutedEventArgs e)
-        {
-            Application.Current.Shutdown();
         }
     }
 }

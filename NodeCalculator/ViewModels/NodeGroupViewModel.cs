@@ -28,21 +28,71 @@ namespace NodeCalculator.ViewModels
             }
         }
 
+        private NodeViewModel? nowDragItem = null;
+        private Size dragDiff;
+
         public void DragOver(IDropInfo dropInfo)
         {
-            var node = dropInfo.Data as NodeViewModel;
-            if (node == null) return;
+            switch(dropInfo.Data)
+            {
+                case NodeViewModel node:
+                    {
+                        if (nowDragItem == null)
+                        {
+                            // ドラッグ開始時にノードとクリック位置の差を求める
+                            dragDiff.Width = dropInfo.DropPosition.X - node.PositionX.Value;
+                            dragDiff.Height = dropInfo.DropPosition.Y - node.PositionY.Value;
+                        }
 
-            dropInfo.Effects = DragDropEffects.Move;
+                        nowDragItem = node;
 
-            node.PositionX.Value = dropInfo.DropPosition.X - 50;
-            node.PositionY.Value = dropInfo.DropPosition.Y - 25;
+                        dropInfo.Effects = DragDropEffects.Move;
+
+                        // ノードを移動
+                        node.PositionX.Value = dropInfo.DropPosition.X - dragDiff.Width;
+                        node.PositionY.Value = dropInfo.DropPosition.Y - dragDiff.Height;
+                    }
+                    break;
+
+                case NodeConnectionViewModel connection:
+                    {
+                        dropInfo.Effects = DragDropEffects.Move;
+
+                        connection.LineToX.Value = dropInfo.DropPosition.X;
+                        connection.LineToY.Value = dropInfo.DropPosition.Y;
+                        connection.Visible.Value = Visibility.Visible;
+                    }
+                    break;
+
+                default:
+                    nowDragItem = null;
+                    break;
+            }
+            
         }
 
         public void Drop(IDropInfo dropInfo)
         {
-            var node = dropInfo.Data as NodeViewModel;
+            switch (dropInfo.Data)
+            {
+                case NodeViewModel node:
+                    {
+                        nowDragItem = null;
+                    }
+                    break;
 
+                case NodeConnectionViewModel connection:
+                    {
+                        connection.LineToX.Value = 0;
+                        connection.LineToY.Value = 0;
+                        connection.Visible.Value = Visibility.Hidden;
+                    }
+                    break;
+
+                default:
+                    nowDragItem = null;
+                    break;
+            }
         }
     }
 }

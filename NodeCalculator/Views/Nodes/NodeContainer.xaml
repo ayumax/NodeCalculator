@@ -9,11 +9,28 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              xmlns:dd="urn:gong-wpf-dragdrop"
+             dd:DragDrop.IsDragSource="True"
              >
     <UserControl.Resources>
         <DataTemplate DataType="{x:Type vm:NodeViewModel}">
             <node:ConstantNode />
         </DataTemplate>
     </UserControl.Resources>
-    <ContentControl Content="{Binding}"/>
+    <Grid>
+        <ContentControl Content="{Binding}"/>
+        <Border DataContext="{Binding In}"
+                Width="15" Height="15" Background="DarkGray"
+                HorizontalAlignment="Center" VerticalAlignment="Top"
+                dd:DragDrop.IsDragSource="True"
+                dd:DragDrop.IsDropTarget="True" 
+                dd:DragDrop.DropHandler="{Binding}">
+            
+        </Border>
+        <Border DataContext="{Binding Out}"
+                Width="15" Height="15" Background="DarkGray" 
+                HorizontalAlignment="Center" VerticalAlignment="Bottom"
+                dd:DragDrop.IsDragSource="True"
+                dd:DragDrop.IsDropTarget="True" 
+                dd:DragDrop.DropHandler="{Binding}"/>
+    </Grid>
 </UserControl>

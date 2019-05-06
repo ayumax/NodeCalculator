@@ -8,26 +8,55 @@
              xmlns:dd="urn:gong-wpf-dragdrop"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <ItemsControl ItemsSource="{Binding Nodes}" 
-                  dd:DragDrop.IsDragSource="True"
+    <Grid>
+        <!-- Line用 -->
+        <ItemsControl ItemsSource="{Binding Nodes}" 
+                  Background="Transparent"
                   dd:DragDrop.IsDropTarget="True" 
-                  dd:DragDrop.DropHandler="{Binding}" >
-        <ItemsControl.ItemsPanel>
-            <ItemsPanelTemplate>
-                <Canvas />
-            </ItemsPanelTemplate>
-        </ItemsControl.ItemsPanel>
-        <ItemsControl.ItemTemplate>
-            <DataTemplate>
-                <node:NodeContainer />
-            </DataTemplate>
-        </ItemsControl.ItemTemplate>
-        <ItemsControl.ItemContainerStyle>
-            <Style>
-                <Setter Property="Canvas.Top" Value="{Binding PositionY.Value}"/>
-                <Setter Property="Canvas.Left" Value="{Binding PositionX.Value}"/>
-            </Style>
-        </ItemsControl.ItemContainerStyle>
-    </ItemsControl>
+                  dd:DragDrop.DropHandler="{Binding}"
+                  >
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Canvas />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <local:NodeLine DataContext="{Binding FixedConnection}" />
+                        <local:NodeLine DataContext="{Binding In}" />
+                        <local:NodeLine DataContext="{Binding Out}" />
+                    </Grid>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        
+        <!-- Node用 -->
+        <ItemsControl ItemsSource="{Binding Nodes}" 
+                  Background="Transparent"
+                  dd:DragDrop.IsDropTarget="True" 
+                  dd:DragDrop.DropHandler="{Binding}"
+                  >
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Canvas />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <node:NodeContainer />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.ItemContainerStyle>
+                <Style>
+                    <Setter Property="Canvas.Top" Value="{Binding PositionY.Value}"/>
+                    <Setter Property="Canvas.Left" Value="{Binding PositionX.Value}"/>
+                </Style>
+            </ItemsControl.ItemContainerStyle>
+        </ItemsControl>
+
+       
+    </Grid>
+   
 
 </UserControl>

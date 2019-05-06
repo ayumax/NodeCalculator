@@ -15,9 +15,15 @@ namespace NodeCalculator.ViewModels
 
         public ReactiveProperty<string> Name { get; }
 
+        public ReactiveProperty<NodeViewModel?> PrevNode { get; }
+        public ReactiveProperty<NodeViewModel?> NextNode { get; }
 
+        public NodeInConnectionViewModel In { get; }
+        public NodeOutConnectionViewModel Out { get; }
 
-        private NodeBase InnerModel;
+        public NodeFixedConnectionViewModel FixedConnection { get; }
+
+        public NodeBase InnerModel { get; private set; }
 
         public NodeViewModel(NodeBase NodeModel)
         {
@@ -26,6 +32,14 @@ namespace NodeCalculator.ViewModels
             PositionX = InnerModel.ToReactivePropertyAsSynchronized(x => x.PositionX).AddTo(container);
             PositionY = InnerModel.ToReactivePropertyAsSynchronized(x => x.PositionY).AddTo(container);
             Name = InnerModel.ToReactivePropertyAsSynchronized(x => x.Name).AddTo(container);
+
+            In = new NodeInConnectionViewModel(this);
+            Out = new NodeOutConnectionViewModel(this);
+
+            PrevNode = new ReactiveProperty<NodeViewModel?>();
+            NextNode = new ReactiveProperty<NodeViewModel?>();
+
+            FixedConnection = new NodeFixedConnectionViewModel(this);
         }
 
 

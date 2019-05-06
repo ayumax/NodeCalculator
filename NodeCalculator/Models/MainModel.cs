@@ -18,7 +18,7 @@ namespace NodeCalculator.Models
         {
             Nodes.Add(new ConstantNode() { PositionX = 10, PositionY = 100 });
             Nodes.Add(new ConstantNode() { PositionX = 30, PositionY = 200 });
-            Nodes.Add(new ConstantNode() { PositionX = 5, PositionY = 400 });
+            Nodes.Add(new ConstantNode() { PositionX = 200, PositionY = 300 });
         }
 
         public void End()

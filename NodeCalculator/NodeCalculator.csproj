@@ -13,6 +13,9 @@
     <None Remove="Views\Nodes\NodeCanvas.xaml" />
     <None Remove="Views\Nodes\NodeContainer.xaml" />
     <None Remove="Views\Nodes\NodeLine.xaml" />
+    <None Remove="Views\Nodes\PlusNode.xaml" />
+    <None Remove="Views\Nodes\ResultNode.xaml" />
+    <None Remove="Views\ToolBox.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,6 +35,15 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\Nodes\NodeLine.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\Nodes\PlusNode.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\Nodes\ResultNode.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\ToolBox.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

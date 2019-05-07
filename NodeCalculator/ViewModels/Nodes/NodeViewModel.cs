@@ -1,27 +1,28 @@
 ﻿using NodeCalculator.Models;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 using GongSolutions.Wpf.DragDrop;
 
-namespace NodeCalculator.ViewModels
+namespace NodeCalculator.ViewModels.Nodes
 {
     class NodeViewModel : ViewModelBase
     {
         public ReactiveProperty<double> PositionX { get; }
         public ReactiveProperty<double> PositionY { get; }
+        public ReactiveProperty<double> Width { get; }
+        public ReactiveProperty<double> Height { get; }
 
         public ReactiveProperty<string> Name { get; }
 
-        public ReactiveProperty<NodeViewModel?> PrevNode { get; }
-        public ReactiveProperty<NodeViewModel?> NextNode { get; }
 
-        public NodeInConnectionViewModel In { get; }
-        public NodeOutConnectionViewModel Out { get; }
+        public NodeInConnectionViewModel[] In { get; }
+        public NodeOutConnectionViewModel[] Out { get; }
 
-        public NodeFixedConnectionViewModel FixedConnection { get; }
+        public NodeFixedConnectionViewModel[] FixedConnection { get; }
 
         public NodeBase InnerModel { get; private set; }
 
@@ -31,15 +32,17 @@ namespace NodeCalculator.ViewModels
 
             PositionX = InnerModel.ToReactivePropertyAsSynchronized(x => x.PositionX).AddTo(container);
             PositionY = InnerModel.ToReactivePropertyAsSynchronized(x => x.PositionY).AddTo(container);
+            Width = new ReactiveProperty<double>(100);
+            Height = new ReactiveProperty<double>(50);
+
             Name = InnerModel.ToReactivePropertyAsSynchronized(x => x.Name).AddTo(container);
 
-            In = new NodeInConnectionViewModel(this);
-            Out = new NodeOutConnectionViewModel(this);
+            In = InnerModel.PrevNodes.Select((x, i) => new NodeInConnectionViewModel(this, i)).ToArray();
 
-            PrevNode = new ReactiveProperty<NodeViewModel?>();
-            NextNode = new ReactiveProperty<NodeViewModel?>();
+            Out = InnerModel.NextNodes.Select((x, i) => new NodeOutConnectionViewModel(this, i)).ToArray();
 
-            FixedConnection = new NodeFixedConnectionViewModel(this);
+
+            FixedConnection = InnerModel.NextNodes.Select((x, i) => new NodeFixedConnectionViewModel(this, i)).ToArray();
         }
 
 

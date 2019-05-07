@@ -4,13 +4,13 @@ using System.Text;
 
 namespace NodeCalculator.Models
 {
-    class ConstantNode : NodeBase
+    class PlusNode : NodeBase
     {
-        public ConstantNode()
+        public PlusNode()
         {
-            Name = "Constant";
+            Name = "PlusNode";
 
-            PrevNodes = new NodeBase[0];
+            PrevNodes = new NodeBase[2];
             NextNodes = new NodeBase[1];
         }
 

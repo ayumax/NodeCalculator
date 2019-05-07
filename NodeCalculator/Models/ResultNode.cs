@@ -4,14 +4,14 @@ using System.Text;
 
 namespace NodeCalculator.Models
 {
-    class ConstantNode : NodeBase
+    class ResultNode : NodeBase
     {
-        public ConstantNode()
+        public ResultNode()
         {
-            Name = "Constant";
+            Name = "Result";
 
-            PrevNodes = new NodeBase[0];
-            NextNodes = new NodeBase[1];
+            PrevNodes = new NodeBase[1];
+            NextNodes = new NodeBase[0];
         }
 
         public override void Do()

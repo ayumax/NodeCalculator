@@ -11,11 +11,13 @@ namespace NodeCalculator.ViewModels
     {
         private MainModel Model;
         public NodeGroupViewModel NodeGroup { get; }
+        public ToolBoxViewModel ToolBox { get; }
 
         public MainViewModel()
         {
             Model = new MainModel();
             NodeGroup = new NodeGroupViewModel(Model);
+            ToolBox = new ToolBoxViewModel();
         }
 
         public override void Start()

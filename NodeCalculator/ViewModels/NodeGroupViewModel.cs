@@ -4,6 +4,7 @@ using System.Text;
 using System.Windows;
 using GongSolutions.Wpf.DragDrop;
 using NodeCalculator.Models;
+using NodeCalculator.ViewModels.Nodes;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 
@@ -13,9 +14,26 @@ namespace NodeCalculator.ViewModels
     {
         public ReadOnlyReactiveCollection<NodeViewModel> Nodes { get; }
 
+        private MainModel mainModel;
+
         public NodeGroupViewModel(MainModel mainModel)
         {
-            Nodes = mainModel.Nodes.ToReadOnlyReactiveCollection(x => new NodeViewModel(x));
+            this.mainModel = mainModel;
+
+            Nodes = mainModel.Nodes.ToReadOnlyReactiveCollection(x =>
+            {
+                switch(x)
+                {
+                    case ConstantNode node:
+                        return new ConstantNodeViewModel(node);
+                    case PlusNode node:
+                        return new PlusNodeViewModel(node);
+                    case ResultNode node:
+                        return new ResultNodeViewModel(node);
+                    default:
+                        return new NodeViewModel(x);
+                }
+            });
         }
 
         public override void Dispose()
@@ -64,6 +82,13 @@ namespace NodeCalculator.ViewModels
                     }
                     break;
 
+                case ToolBoxItemViewModel item:
+                    {
+                        dropInfo.Effects = DragDropEffects.Move;
+
+
+                    }
+                    break;
                 default:
                     nowDragItem = null;
                     break;
@@ -88,7 +113,14 @@ namespace NodeCalculator.ViewModels
                         connection.Visible.Value = Visibility.Hidden;
                     }
                     break;
-
+                case ToolBoxItemViewModel item:
+                    {
+                        var newItem = (NodeBase)Activator.CreateInstance(item.NodeModelType);
+                        newItem.PositionX = dropInfo.DropPosition.X;
+                        newItem.PositionY = dropInfo.DropPosition.Y;
+                        mainModel.Nodes.Add(newItem);                      
+                    }
+                    break;
                 default:
                     nowDragItem = null;
                     break;

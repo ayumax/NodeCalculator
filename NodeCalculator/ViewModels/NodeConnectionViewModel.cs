@@ -6,6 +6,7 @@ using System.Windows;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 using System.Windows.Media;
+using NodeCalculator.ViewModels.Nodes;
 
 namespace NodeCalculator.ViewModels
 {
@@ -23,12 +24,14 @@ namespace NodeCalculator.ViewModels
 
         public NodeViewModel Parent { get; private set; }
 
-        protected Point LineFromOffset;
+        public int Index { get; private set; } = 0;
 
+        public ReactiveProperty<NodeConnectionViewModel> ConnectNode { get; } = new ReactiveProperty<NodeConnectionViewModel>();
 
-        public NodeConnectionViewModel(NodeViewModel Node)
+        public NodeConnectionViewModel(NodeViewModel Node, int Index)
         {
             Parent = Node;
+            this.Index = Index;
 
             LineFromX = new ReactiveProperty<double>(0);
             LineFromY = new ReactiveProperty<double>(0);
@@ -36,8 +39,7 @@ namespace NodeCalculator.ViewModels
             LineToY = new ReactiveProperty<double>(0);
             Visible = new ReactiveProperty<Visibility>(Visibility.Hidden);
 
-            Node.PositionX.Subscribe(x => LineFromX.Value = LineFromOffset.X + x);
-            Node.PositionY.Subscribe(x => LineFromY.Value = LineFromOffset.Y + x);
+            Node.PositionX.Subscribe(x => LineFromX.Value = Parent.Width.Value / 2 + x);         
         }
 
         public virtual void DragOver(IDropInfo dropInfo)
@@ -52,10 +54,11 @@ namespace NodeCalculator.ViewModels
 
     class NodeInConnectionViewModel : NodeConnectionViewModel
     {
-        public NodeInConnectionViewModel(NodeViewModel Node)
-            : base(Node)
+        public NodeInConnectionViewModel(NodeViewModel Node, int Index)
+            : base(Node, Index)
         {
-            LineFromOffset = new Point(50, 0);
+            ConnectNode.Subscribe(x => Parent.InnerModel.PrevNodes[Index] = x?.Parent.InnerModel);
+            Node.PositionY.Subscribe(x => LineFromY.Value = 0 + x);
         }
 
         public override void DragOver(IDropInfo dropInfo)
@@ -71,7 +74,7 @@ namespace NodeCalculator.ViewModels
             var connection = dropInfo.Data as NodeOutConnectionViewModel;
             if (connection == null) return;
 
-            Parent.NextNode.Value = connection.Parent;
+            connection.ConnectNode.Value = this;
 
             Visible.Value = Visibility.Hidden;
             connection.Visible.Value = Visibility.Hidden;
@@ -80,10 +83,11 @@ namespace NodeCalculator.ViewModels
 
     class NodeOutConnectionViewModel : NodeConnectionViewModel
     {
-        public NodeOutConnectionViewModel(NodeViewModel Node)
-           : base(Node)
+        public NodeOutConnectionViewModel(NodeViewModel Node, int Index)
+           : base(Node, Index)
         {
-            LineFromOffset = new Point(50, 50);
+            ConnectNode.Subscribe(x => Parent.InnerModel.NextNodes[Index] = x?.Parent.InnerModel);
+            Node.PositionY.Subscribe(x => LineFromY.Value = Parent.Height.Value + x);
         }
 
         public override void DragOver(IDropInfo dropInfo)
@@ -99,7 +103,7 @@ namespace NodeCalculator.ViewModels
             var connection = dropInfo.Data as NodeInConnectionViewModel;
             if (connection == null) return;
 
-            connection.Parent.NextNode.Value = Parent;
+            ConnectNode.Value = connection;
 
             Visible.Value = Visibility.Hidden;
             connection.Visible.Value = Visibility.Hidden;

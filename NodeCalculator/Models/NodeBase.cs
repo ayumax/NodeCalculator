@@ -11,8 +11,8 @@ namespace NodeCalculator.Models
 
         public string Name { get; set; } = "";
 
-        public NodeBase? PrevNode { get; set; }
-        public NodeBase? NextNode { get; set; }
+        public NodeBase?[] PrevNodes { get; set; } = new NodeBase[0];
+        public NodeBase?[] NextNodes { get; set; } = new NodeBase[0];
 
         public virtual void Do()
         {

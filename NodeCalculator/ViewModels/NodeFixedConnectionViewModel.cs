@@ -57,14 +57,13 @@ namespace NodeCalculator.ViewModels
                     double oneAreaWidth = connectNode.Width.Value / connectNode.In.Length;
                     connectNode.PositionX.Subscribe(pos => LineToX.Value = oneAreaWidth * x.Index + oneAreaWidth / 2 + pos).AddTo(disposables);
                     connectNode.PositionY.Subscribe(pos => LineToY.Value = 0 + pos).AddTo(disposables);
-                }
 
-                Node.InnerModel.NextNodes[Index] = x?.Parent.InnerModel;
-                if (x != null)
-                {
+                    Node.InnerModel.NextNodes[Index] = x.Parent.InnerModel;
                     x.Parent.InnerModel.PrevNodes[x.Index] = Node.InnerModel;
                     x.Parent.InnerModel.Do(null);
                 }
+
+               
             });
         }
     }

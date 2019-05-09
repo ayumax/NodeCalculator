@@ -74,10 +74,12 @@ namespace NodeCalculator.ViewModels
             var connection = dropInfo.Data as NodeOutConnectionViewModel;
             if (connection == null) return;
 
-            connection.ConnectNode.Value = this;
-
             Visible.Value = Visibility.Hidden;
             connection.Visible.Value = Visibility.Hidden;
+
+            if (this.Parent == connection.Parent) return;
+
+            connection.ConnectNode.Value = this;
         }
     }
 
@@ -103,10 +105,13 @@ namespace NodeCalculator.ViewModels
             var connection = dropInfo.Data as NodeInConnectionViewModel;
             if (connection == null) return;
 
-            ConnectNode.Value = connection;
 
             Visible.Value = Visibility.Hidden;
             connection.Visible.Value = Visibility.Hidden;
+
+            if (this.Parent == connection.Parent) return;
+
+            ConnectNode.Value = connection;
         }
     }
 }

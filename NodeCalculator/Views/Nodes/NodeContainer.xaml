@@ -10,6 +10,8 @@
              d:DesignHeight="450" d:DesignWidth="800"
              xmlns:dd="urn:gong-wpf-dragdrop"
              dd:DragDrop.IsDragSource="True"
+             dd:DragDrop.MinimumHorizontalDragDistance="0"
+             dd:DragDrop.MinimumVerticalDragDistance="0"
              >
     <UserControl.Resources>
         <DataTemplate DataType="{x:Type vm:ConstantNodeViewModel}">

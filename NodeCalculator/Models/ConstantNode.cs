@@ -6,19 +6,23 @@ namespace NodeCalculator.Models
 {
     class ConstantNode : NodeBase
     {
+        private double _InputValue = 0;
+        public double InputValue
+        {
+            get => _InputValue;
+            set { if (_InputValue == value) return;  _InputValue = value; RaizePropertyChanged(); }
+        }
+
         public ConstantNode()
         {
             Name = "Constant";
 
-            PrevNodes = new NodeBase[0];
-            NextNodes = new NodeBase[1];
+            NextNodes = new NodeBase?[1];
         }
 
-        public override void Do()
+        protected override double? Culculate(List<double?> PrevResults)
         {
-            base.Do();
-
-
+            return InputValue;
         }
     }
 }

@@ -24,6 +24,8 @@ namespace NodeCalculator.ViewModels.Nodes
 
         public NodeFixedConnectionViewModel[] FixedConnection { get; }
 
+        public ReactiveProperty<double?> Result { get; }
+
         public NodeBase InnerModel { get; private set; }
 
         public NodeViewModel(NodeBase NodeModel)
@@ -43,6 +45,8 @@ namespace NodeCalculator.ViewModels.Nodes
 
 
             FixedConnection = InnerModel.NextNodes.Select((x, i) => new NodeFixedConnectionViewModel(this, i)).ToArray();
+
+            Result = InnerModel.ToReactivePropertyAsSynchronized(x => x.Result).AddTo(container);
         }
 
 

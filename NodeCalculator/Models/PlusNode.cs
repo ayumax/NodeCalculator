@@ -10,15 +10,15 @@ namespace NodeCalculator.Models
         {
             Name = "PlusNode";
 
-            PrevNodes = new NodeBase[2];
-            NextNodes = new NodeBase[1];
+            PrevNodes = new NodeBase?[2];
+            NextNodes = new NodeBase?[1];
         }
 
-        public override void Do()
+        protected override double? Culculate(List<double?> PrevResults)
         {
-            base.Do();
+            if (PrevResults[0] == null || PrevResults[1] == null) return null;
 
-
+            return PrevResults[0] + PrevResults[1];
         }
     }
 }

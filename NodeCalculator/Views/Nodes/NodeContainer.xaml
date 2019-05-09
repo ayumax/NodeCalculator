@@ -22,7 +22,11 @@
             <node:ResultNode />
         </DataTemplate>
     </UserControl.Resources>
-    <Grid Width="{Binding Width.Value}" Height="{Binding Height.Value}">
-        <ContentControl Content="{Binding}"/>
-    </Grid>
+    <StackPanel Orientation="Vertical">
+        <Grid Width="{Binding Width.Value}" Height="{Binding Height.Value}">
+            <ContentControl Content="{Binding}"/>
+        </Grid>
+        <Label Content="{Binding Result.Value}" HorizontalAlignment="Right" />
+    </StackPanel>
+    
 </UserControl>

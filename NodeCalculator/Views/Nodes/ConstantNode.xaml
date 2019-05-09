@@ -14,7 +14,7 @@
                 BorderThickness="2"
                 CornerRadius="5" />
 
-        <TextBox Width="50" Height="20" Margin="5"/>
+        <TextBox Width="50" Height="20" Margin="5" Text="{Binding InputValue.Value, UpdateSourceTrigger=PropertyChanged}" />
 
         <Border DataContext="{Binding Out[0]}"
                 Width="15" Height="15" Background="DarkBlue" 

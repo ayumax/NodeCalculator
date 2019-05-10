@@ -9,5 +9,6 @@
     <Line X1="{Binding LineFromX.Value}" Y1="{Binding LineFromY.Value}"
           X2="{Binding LineToX.Value}" Y2="{Binding LineToY.Value}"
           Stroke="{Binding Color}"
+          StrokeThickness="2"
           Visibility="{Binding Visible.Value}"/>
 </UserControl>

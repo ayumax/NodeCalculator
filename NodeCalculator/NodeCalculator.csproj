@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Views\NodeParts\NodeConnector.xaml" />
     <None Remove="Views\Nodes\ConstantNode.xaml" />
     <None Remove="Views\Nodes\NodeCanvas.xaml" />
     <None Remove="Views\Nodes\NodeContainer.xaml" />
@@ -25,6 +26,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Views\NodeParts\NodeConnector.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\Nodes\ConstantNode.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

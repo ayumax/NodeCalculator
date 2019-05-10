@@ -58,7 +58,7 @@ namespace NodeCalculator.ViewModels
             : base(Node, Index)
         {
             ConnectNode.Subscribe(x => Parent.InnerModel.PrevNodes[Index] = x?.Parent.InnerModel);
-            Node.PositionY.Subscribe(x => LineFromY.Value = 0 + x);
+            Node.PositionY.Subscribe(x => LineFromY.Value = 0 + x + 5);
         }
 
         public override void DragOver(IDropInfo dropInfo)
@@ -89,7 +89,7 @@ namespace NodeCalculator.ViewModels
            : base(Node, Index)
         {
             ConnectNode.Subscribe(x => Parent.InnerModel.NextNodes[Index] = x?.Parent.InnerModel);
-            Node.PositionY.Subscribe(x => LineFromY.Value = Parent.Height.Value + x);
+            Node.PositionY.Subscribe(x => LineFromY.Value = Parent.Height.Value + x - 5);
         }
 
         public override void DragOver(IDropInfo dropInfo)

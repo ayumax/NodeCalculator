@@ -24,11 +24,12 @@
             <node:ResultNode />
         </DataTemplate>
     </UserControl.Resources>
-    <StackPanel Orientation="Vertical">
+
+    <StackPanel Orientation="Vertical" >
         <Grid Width="{Binding Width.Value}" Height="{Binding Height.Value}">
             <ContentControl Content="{Binding}"/>
         </Grid>
-        <Label Content="{Binding Result.Value}" HorizontalAlignment="Right" />
+        <Label Content="{Binding Result.Value}" FontSize="14" HorizontalAlignment="Right" HorizontalContentAlignment="Right" Margin="0,-15,0,0" Width="45"/>
     </StackPanel>
     
 </UserControl>

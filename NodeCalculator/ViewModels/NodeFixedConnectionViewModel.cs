@@ -36,7 +36,7 @@ namespace NodeCalculator.ViewModels
 
             double oneAreaWidth = Node.Width.Value / Node.Out.Length;
             Node.PositionX.Subscribe(x => LineFromX.Value = oneAreaWidth * Index + oneAreaWidth / 2 + x);
-            Node.PositionY.Subscribe(x => LineFromY.Value = Node.Height.Value + x);
+            Node.PositionY.Subscribe(x => LineFromY.Value = Node.Height.Value + x - 5);
 
             Node.Out[Index].ConnectNode.Subscribe(x => 
             {
@@ -56,7 +56,7 @@ namespace NodeCalculator.ViewModels
                     var connectNode = x.Parent;
                     double oneAreaWidth = connectNode.Width.Value / connectNode.In.Length;
                     connectNode.PositionX.Subscribe(pos => LineToX.Value = oneAreaWidth * x.Index + oneAreaWidth / 2 + pos).AddTo(disposables);
-                    connectNode.PositionY.Subscribe(pos => LineToY.Value = 0 + pos).AddTo(disposables);
+                    connectNode.PositionY.Subscribe(pos => LineToY.Value = 5 + pos).AddTo(disposables);
 
                     Node.InnerModel.NextNodes[Index] = x.Parent.InnerModel;
                     x.Parent.InnerModel.PrevNodes[x.Index] = Node.InnerModel;

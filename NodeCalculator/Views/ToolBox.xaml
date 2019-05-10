@@ -17,8 +17,7 @@
             </StackPanel.Resources>
             <Border 
                 DataContext="{Binding Constant}"
-                dd:DragDrop.IsDragSource="True"
-                dd:DragDrop.UseDefaultDragAdorner="True"
+                dd:DragDrop.IsDragSource="True"       
                 dd:DragDrop.DragAdornerTranslation="0,50"
                 Background="LightBlue"
                 BorderBrush="DarkBlue"
@@ -30,7 +29,6 @@
             <Border 
                 DataContext="{Binding Plus}"
                 dd:DragDrop.IsDragSource="True"
-                dd:DragDrop.UseDefaultDragAdorner="True"
                 dd:DragDrop.DragAdornerTranslation="0,50"
                 Background="LightGreen"
                 BorderBrush="DarkGreen"
@@ -42,7 +40,6 @@
             <Border 
                 DataContext="{Binding Result}"
                 dd:DragDrop.IsDragSource="True"
-                dd:DragDrop.UseDefaultDragAdorner="True"
                 dd:DragDrop.DragAdornerTranslation="0,50"
                 Background="LightPink"
                 BorderBrush="DarkRed"

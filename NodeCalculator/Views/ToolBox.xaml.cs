@@ -22,5 +22,10 @@ namespace NodeCalculator.Views
         {
             InitializeComponent();
         }
+
+        private void TextBlock_DragEnter(object sender, DragEventArgs e)
+        {
+            e.Handled = true;
+        }
     }
 }

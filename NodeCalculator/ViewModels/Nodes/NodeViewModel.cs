@@ -26,6 +26,8 @@ namespace NodeCalculator.ViewModels.Nodes
 
         public ReactiveProperty<double?> Result { get; }
 
+        public ReactiveProperty<bool> IsInputOpen { get; }
+
         public NodeBase InnerModel { get; private set; }
 
         public NodeViewModel(NodeBase NodeModel)
@@ -35,7 +37,7 @@ namespace NodeCalculator.ViewModels.Nodes
             PositionX = InnerModel.ToReactivePropertyAsSynchronized(x => x.PositionX).AddTo(container);
             PositionY = InnerModel.ToReactivePropertyAsSynchronized(x => x.PositionY).AddTo(container);
             Width = new ReactiveProperty<double>(100);
-            Height = new ReactiveProperty<double>(50);
+            Height = new ReactiveProperty<double>(60);
 
             Name = InnerModel.ToReactivePropertyAsSynchronized(x => x.Name).AddTo(container);
 
@@ -47,6 +49,8 @@ namespace NodeCalculator.ViewModels.Nodes
             FixedConnection = InnerModel.NextNodes.Select((x, i) => new NodeFixedConnectionViewModel(this, i)).ToArray();
 
             Result = InnerModel.ToReactivePropertyAsSynchronized(x => x.Result).AddTo(container);
+
+            IsInputOpen = new ReactiveProperty<bool>(false);
         }
 
 

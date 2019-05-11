@@ -31,6 +31,7 @@ namespace NodeCalculator.ViewModels.Nodes
         public ReactiveProperty<bool> IsInputOpen { get; }
 
         public ReactiveCommand AddInputConnectionCommand { get; }
+        public ReactiveProperty<bool> IsRemoveInputConnection { get; }
         public ReactiveCommand RemoveInputConnectionCommand { get; }
 
         public NodeBase InnerModel { get; private set; }
@@ -52,6 +53,8 @@ namespace NodeCalculator.ViewModels.Nodes
             {
                 InCount.Value = InnerModel.PrevNodes.Count;
                 Width.Value = InCount.Value * 50;
+
+                IsRemoveInputConnection.Value = InCount.Value > 2;
             };
 
             Out = InnerModel.NextNodes.ToReadOnlyReactiveCollection(x => new NodeOutConnectionViewModel(this, x));
@@ -66,7 +69,8 @@ namespace NodeCalculator.ViewModels.Nodes
             AddInputConnectionCommand = new ReactiveCommand().AddTo(container);
             AddInputConnectionCommand.Subscribe(() => InnerModel.ChangeConnectNodeNum(InnerModel.PrevNodes, InnerModel.PrevNodes.Count + 1));
 
-            RemoveInputConnectionCommand = new ReactiveCommand().AddTo(container);
+            IsRemoveInputConnection = new ReactiveProperty<bool>();
+            RemoveInputConnectionCommand = IsRemoveInputConnection.ToReactiveCommand().AddTo(container);
             RemoveInputConnectionCommand.Subscribe(() => InnerModel.ChangeConnectNodeNum(InnerModel.PrevNodes, InnerModel.PrevNodes.Count - 1));
         }
 

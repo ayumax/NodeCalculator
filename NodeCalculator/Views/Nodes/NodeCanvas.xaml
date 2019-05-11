@@ -24,8 +24,38 @@
                 <DataTemplate>
                     <Grid>
                         <local:NodeLine DataContext="{Binding FixedConnection}" />
-                        <local:NodeLine DataContext="{Binding In}" />
-                        <local:NodeLine DataContext="{Binding Out}" />
+
+                        <ItemsControl ItemsSource="{Binding In}" 
+                                      Background="Transparent"
+                                      dd:DragDrop.IsDropTarget="True" 
+                                      dd:DragDrop.DropHandler="{Binding}" >
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <Canvas />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <local:NodeLine />
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <ItemsControl ItemsSource="{Binding Out}" 
+                                      Background="Transparent"
+                                      dd:DragDrop.IsDropTarget="True" 
+                                      dd:DragDrop.DropHandler="{Binding}" >
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <Canvas />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <local:NodeLine />
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
                     </Grid>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>

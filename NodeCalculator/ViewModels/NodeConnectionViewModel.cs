@@ -45,8 +45,6 @@ namespace NodeCalculator.ViewModels
             LineToY = new ReactiveProperty<double>(0);
             Visible = new ReactiveProperty<Visibility>(Visibility.Hidden);
 
-            Node.PositionX.Subscribe(x => LineFromX.Value = Parent.Width.Value / 2 + x);
-
             ColumnIndex = new ReactiveProperty<int>(nodeConnectModel.ConnectIndex);
 
             BeziePathData = new ReactiveProperty<string>();
@@ -72,6 +70,9 @@ namespace NodeCalculator.ViewModels
             : base(Node, nodeConnectModel)
         {
             ConnectNode.Subscribe(x => InnerModel.ConnectNode = x?.Parent.InnerModel);
+
+            double oneAreaWidth = Parent.Width.Value / Parent.InnerModel.PrevNodes.Count;
+            Node.PositionX.Subscribe(x => LineFromX.Value = oneAreaWidth * nodeConnectModel.ConnectIndex + oneAreaWidth / 2 + x);
             Node.PositionY.Subscribe(x => LineFromY.Value = 0 + x + 5);
         }
 
@@ -103,6 +104,9 @@ namespace NodeCalculator.ViewModels
            : base(Node, nodeConnectModel)
         {
             ConnectNode.Subscribe(x => InnerModel.ConnectNode = x?.Parent.InnerModel);
+
+            double oneAreaWidth = Parent.Width.Value / Parent.InnerModel.NextNodes.Count;
+            Node.PositionX.Subscribe(x => LineFromX.Value = oneAreaWidth * nodeConnectModel.ConnectIndex + oneAreaWidth / 2 + x);
             Node.PositionY.Subscribe(x => LineFromY.Value = Parent.Height.Value + x - 5);
         }
 

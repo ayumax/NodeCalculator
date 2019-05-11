@@ -8,6 +8,7 @@
 			 mc:Ignorable="d" 
              xmlns:parts="clr-namespace:NodeCalculator.Views.NodeParts"
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
 			 d:DesignHeight="450" d:DesignWidth="800">
 	<Grid>
         <Border x:Name="nodeBorder" Background="LightBlue" BorderBrush="DarkBlue" BorderThickness="2" CornerRadius="5" Margin="0,10,0,10"/>
@@ -38,10 +39,10 @@
 		       AllowsTransparency="True"
                StaysOpen="False"
                Width="200">
-            <Border Background="LightBlue" BorderBrush="DarkBlue" BorderThickness="2" CornerRadius="5" Width="100" Height="35" >
+            <Border Background="LightBlue" BorderBrush="DarkBlue" BorderThickness="2" CornerRadius="5" Width="140" Height="35" >
                 <StackPanel Orientation="Horizontal">
                     <Label Content="Value:" VerticalAlignment="Center"/>
-                    <TextBox Width="50" Height="20" Text="{Binding InputValue.Value}" VerticalAlignment="Center"/>
+                    <toolkit:DoubleUpDown Value="{Binding InputValue.Value}" Width="80" Height="25" VerticalAlignment="Center" Margin="0"/>
                 </StackPanel>
             </Border>
 		</Popup>

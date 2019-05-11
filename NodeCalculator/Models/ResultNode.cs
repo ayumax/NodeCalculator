@@ -10,7 +10,7 @@ namespace NodeCalculator.Models
         {
             Name = "Result";
 
-            PrevNodes = new NodeBase?[1];
+            ChangeConnectNodeNum(PrevNodes, 1);
         }
 
         protected override double? Culculate(List<double?> PrevResults)

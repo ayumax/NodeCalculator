@@ -19,10 +19,10 @@ namespace NodeCalculator.ViewModels.Nodes
         public ReactiveProperty<string> Name { get; }
 
 
-        public NodeInConnectionViewModel[] In { get; }
-        public NodeOutConnectionViewModel[] Out { get; }
+        public ReadOnlyReactiveCollection<NodeInConnectionViewModel> In { get; }
+        public ReadOnlyReactiveCollection<NodeOutConnectionViewModel> Out { get; }
 
-        public NodeFixedConnectionViewModel[] FixedConnection { get; }
+        public ReadOnlyReactiveCollection<NodeFixedConnectionViewModel> FixedConnection { get; }
 
         public ReactiveProperty<double?> Result { get; }
 
@@ -41,12 +41,12 @@ namespace NodeCalculator.ViewModels.Nodes
 
             Name = InnerModel.ToReactivePropertyAsSynchronized(x => x.Name).AddTo(container);
 
-            In = InnerModel.PrevNodes.Select((x, i) => new NodeInConnectionViewModel(this, i)).ToArray();
+            In = InnerModel.PrevNodes.ToReadOnlyReactiveCollection(x => new NodeInConnectionViewModel(this, x));
 
-            Out = InnerModel.NextNodes.Select((x, i) => new NodeOutConnectionViewModel(this, i)).ToArray();
+            Out = InnerModel.NextNodes.ToReadOnlyReactiveCollection(x => new NodeOutConnectionViewModel(this, x));
 
 
-            FixedConnection = InnerModel.NextNodes.Select((x, i) => new NodeFixedConnectionViewModel(this, i)).ToArray();
+            FixedConnection = InnerModel.NextNodes.ToReadOnlyReactiveCollection(x => new NodeFixedConnectionViewModel(this, x));
 
             Result = InnerModel.ToReactivePropertyAsSynchronized(x => x.Result).AddTo(container);
 

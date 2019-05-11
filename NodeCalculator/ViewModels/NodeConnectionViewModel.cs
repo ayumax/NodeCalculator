@@ -6,6 +6,7 @@ using System.Windows;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 using System.Windows.Media;
+using NodeCalculator.Models;
 using NodeCalculator.ViewModels.Nodes;
 
 namespace NodeCalculator.ViewModels
@@ -24,14 +25,14 @@ namespace NodeCalculator.ViewModels
 
         public NodeViewModel Parent { get; private set; }
 
-        public int Index { get; private set; } = 0;
+        public NodeConnectModel InnerModel { get; private set; }
 
         public ReactiveProperty<NodeConnectionViewModel> ConnectNode { get; } = new ReactiveProperty<NodeConnectionViewModel>();
 
-        public NodeConnectionViewModel(NodeViewModel Node, int Index)
+        public NodeConnectionViewModel(NodeViewModel Node, NodeConnectModel nodeConnectModel)
         {
             Parent = Node;
-            this.Index = Index;
+            InnerModel = nodeConnectModel;
 
             LineFromX = new ReactiveProperty<double>(0);
             LineFromY = new ReactiveProperty<double>(0);
@@ -54,10 +55,10 @@ namespace NodeCalculator.ViewModels
 
     class NodeInConnectionViewModel : NodeConnectionViewModel
     {
-        public NodeInConnectionViewModel(NodeViewModel Node, int Index)
-            : base(Node, Index)
+        public NodeInConnectionViewModel(NodeViewModel Node, NodeConnectModel nodeConnectModel)
+            : base(Node, nodeConnectModel)
         {
-            ConnectNode.Subscribe(x => Parent.InnerModel.PrevNodes[Index] = x?.Parent.InnerModel);
+            ConnectNode.Subscribe(x => InnerModel.ConnectNode = x?.Parent.InnerModel);
             Node.PositionY.Subscribe(x => LineFromY.Value = 0 + x + 5);
         }
 
@@ -85,10 +86,10 @@ namespace NodeCalculator.ViewModels
 
     class NodeOutConnectionViewModel : NodeConnectionViewModel
     {
-        public NodeOutConnectionViewModel(NodeViewModel Node, int Index)
-           : base(Node, Index)
+        public NodeOutConnectionViewModel(NodeViewModel Node, NodeConnectModel nodeConnectModel)
+           : base(Node, nodeConnectModel)
         {
-            ConnectNode.Subscribe(x => Parent.InnerModel.NextNodes[Index] = x?.Parent.InnerModel);
+            ConnectNode.Subscribe(x => InnerModel.ConnectNode = x?.Parent.InnerModel);
             Node.PositionY.Subscribe(x => LineFromY.Value = Parent.Height.Value + x - 5);
         }
 

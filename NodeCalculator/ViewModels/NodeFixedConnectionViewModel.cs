@@ -6,6 +6,7 @@ using System.Windows.Media;
 using NodeCalculator.ViewModels.Nodes;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
+using NodeCalculator.Models;
 
 namespace NodeCalculator.ViewModels
 {
@@ -24,9 +25,12 @@ namespace NodeCalculator.ViewModels
         protected NodeViewModel Parent;
         private List<IDisposable> disposables = new List<IDisposable>();
 
-        public NodeFixedConnectionViewModel(NodeViewModel Node, int Index)
+        public NodeConnectModel InnerModel { get; private set; }
+
+        public NodeFixedConnectionViewModel(NodeViewModel Node, NodeConnectModel nodeConnectModel)
         {
             Parent = Node;
+            InnerModel = nodeConnectModel;
 
             LineFromX = new ReactiveProperty<double>(0);
             LineFromY = new ReactiveProperty<double>(0);
@@ -34,11 +38,11 @@ namespace NodeCalculator.ViewModels
             LineToY = new ReactiveProperty<double>(0);
             Visible = new ReactiveProperty<Visibility>(Visibility.Hidden);
 
-            double oneAreaWidth = Node.Width.Value / Node.Out.Length;
-            Node.PositionX.Subscribe(x => LineFromX.Value = oneAreaWidth * Index + oneAreaWidth / 2 + x);
+            double oneAreaWidth = Node.Width.Value / Node.Out.Count;
+            Node.PositionX.Subscribe(x => LineFromX.Value = oneAreaWidth * InnerModel.ConnectIndex + oneAreaWidth / 2 + x);
             Node.PositionY.Subscribe(x => LineFromY.Value = Node.Height.Value + x - 5);
 
-            Node.Out[Index].ConnectNode.Subscribe(x => 
+            Node.Out[InnerModel.ConnectIndex].ConnectNode.Subscribe(x => 
             {
                 if (x == null)
                 {
@@ -54,12 +58,12 @@ namespace NodeCalculator.ViewModels
                     Visible.Value = Visibility.Visible;
 
                     var connectNode = x.Parent;
-                    double oneAreaWidth = connectNode.Width.Value / connectNode.In.Length;
-                    connectNode.PositionX.Subscribe(pos => LineToX.Value = oneAreaWidth * x.Index + oneAreaWidth / 2 + pos).AddTo(disposables);
+                    double oneAreaWidth = connectNode.Width.Value / connectNode.In.Count;
+                    connectNode.PositionX.Subscribe(pos => LineToX.Value = oneAreaWidth * x.InnerModel.ConnectIndex + oneAreaWidth / 2 + pos).AddTo(disposables);
                     connectNode.PositionY.Subscribe(pos => LineToY.Value = 5 + pos).AddTo(disposables);
 
-                    Node.InnerModel.NextNodes[Index] = x.Parent.InnerModel;
-                    x.Parent.InnerModel.PrevNodes[x.Index] = Node.InnerModel;
+                    Node.InnerModel.NextNodes[InnerModel.ConnectIndex].ConnectNode = x.Parent.InnerModel;
+                    x.Parent.InnerModel.PrevNodes[x.InnerModel.ConnectIndex].ConnectNode = Node.InnerModel;
                     x.Parent.InnerModel.Do(null);
                 }
 

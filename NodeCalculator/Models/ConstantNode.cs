@@ -17,7 +17,7 @@ namespace NodeCalculator.Models
         {
             Name = "Constant";
 
-            NextNodes = new NodeBase?[1];
+            ChangeConnectNodeNum(NextNodes, 1);
         }
 
         protected override double? Culculate(List<double?> PrevResults)

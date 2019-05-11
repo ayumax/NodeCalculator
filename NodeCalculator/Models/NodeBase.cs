@@ -29,8 +29,8 @@ namespace NodeCalculator.Models
             set { if (_Name == value) return; _Name = value; RaizePropertyChanged(); }
         }
 
-        public NodeBase?[] PrevNodes { get; set; } = new NodeBase?[0];
-        public NodeBase?[] NextNodes { get; set; } = new NodeBase?[0];
+        public ObservableCollection<NodeConnectModel> PrevNodes { get; } = new ObservableCollection<NodeConnectModel>();
+        public ObservableCollection<NodeConnectModel> NextNodes { get; } = new ObservableCollection<NodeConnectModel>();
 
         private double? _Result = null;
         [XmlIgnore]
@@ -57,18 +57,18 @@ namespace NodeCalculator.Models
         {
             List<double?> results = new List<double?>();
 
-            for (int i = 0; i < PrevNodes.Length; ++i)
+            for (int i = 0; i < PrevNodes.Count; ++i)
             {
                 double? prevNodeResult = null;
 
                 var prevNode = PrevNodes[i];
 
-                if (prevNode != null)
+                if (prevNode.ConnectNode != null)
                 {
-                    prevNodeResult = prevNode.Result;
+                    prevNodeResult = prevNode.ConnectNode.Result;
                     if (prevNodeResult == null)
                     { 
-                        prevNodeResult = prevNode.Do(this);
+                        prevNodeResult = prevNode.ConnectNode.Do(this);
                     }
                 }
 
@@ -81,7 +81,7 @@ namespace NodeCalculator.Models
             {
                 foreach(var nextNode in NextNodes)
                 {
-                    nextNode?.Do(null);
+                    nextNode.ConnectNode?.Do(null);
                 }
 
             }
@@ -91,5 +91,25 @@ namespace NodeCalculator.Models
 
         protected abstract double? Culculate(List<double?> PrevResults);
 
+        public void ChangeConnectNodeNum(ObservableCollection<NodeConnectModel> Nodes, int NewNodeNum)
+        {
+            if (Nodes.Count > NewNodeNum)
+            {
+                while (Nodes.Count != NewNodeNum)
+                {
+                    Nodes.RemoveAt(Nodes.Count - 1);
+                }
+            }
+            else
+            {
+                while (Nodes.Count != NewNodeNum)
+                {
+                    Nodes.Add(new NodeConnectModel()
+                    {
+                        ConnectIndex = Nodes.Count
+                    });
+                }
+            }
+        }
     }
 }

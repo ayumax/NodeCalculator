@@ -23,7 +23,11 @@
     </Behaviors:Interaction.Triggers>
 
     <DockPanel>
-        <local:ToolBox DockPanel.Dock="Left" DataContext="{Binding ToolBox}" />
-        <node:NodeCanvas DataContext="{Binding NodeGroup}"/>
+        <DockPanel>
+            <Button Content="SaveImage" DockPanel.Dock="Bottom" Height="30" Margin="5" Click="Button_Click"/>
+            <local:ToolBox DockPanel.Dock="Left" DataContext="{Binding ToolBox}" />
+        </DockPanel>
+        
+        <node:NodeCanvas x:Name="NodeCanvas" DataContext="{Binding NodeGroup}"/>
     </DockPanel>
 </Window>

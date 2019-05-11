@@ -38,6 +38,17 @@
                 <Label Content="Plus" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Border>
             <Border 
+                DataContext="{Binding Minus}"
+                dd:DragDrop.IsDragSource="True"
+                dd:DragDrop.DragAdornerTranslation="0,50"
+                Background="LightGreen"
+                BorderBrush="DarkGreen"
+                BorderThickness="2"
+                CornerRadius="5"
+                Margin="5">
+                <Label Content="Minus" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Border>
+            <Border 
                 DataContext="{Binding Result}"
                 dd:DragDrop.IsDragSource="True"
                 dd:DragDrop.DragAdornerTranslation="0,50"

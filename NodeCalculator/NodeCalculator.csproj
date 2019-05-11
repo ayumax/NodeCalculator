@@ -11,6 +11,7 @@
   <ItemGroup>
     <None Remove="Views\NodeParts\NodeConnector.xaml" />
     <None Remove="Views\Nodes\ConstantNode.xaml" />
+    <None Remove="Views\Nodes\MinusNode.xaml" />
     <None Remove="Views\Nodes\NodeCanvas.xaml" />
     <None Remove="Views\Nodes\NodeContainer.xaml" />
     <None Remove="Views\Nodes\NodeLine.xaml" />
@@ -39,6 +40,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\Nodes\NodeLine.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\Nodes\MinusNode.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\Nodes\PlusNode.xaml.cs">

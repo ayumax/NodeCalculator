@@ -7,6 +7,7 @@ using NodeCalculator.Models;
 using NodeCalculator.ViewModels.Nodes;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
+using System.Reflection;
 
 namespace NodeCalculator.ViewModels
 {
@@ -22,17 +23,10 @@ namespace NodeCalculator.ViewModels
 
             Nodes = mainModel.Nodes.ToReadOnlyReactiveCollection(x =>
             {
-                switch(x)
-                {
-                    case ConstantNode node:
-                        return new ConstantNodeViewModel(node);
-                    case PlusNode node:
-                        return new PlusNodeViewModel(node);
-                    case ResultNode node:
-                        return new ResultNodeViewModel(node);
-                    default:
-                        return new NodeViewModel(x);
-                }
+                // Model class name + "ViewModel" => ViewModel class name
+                Type viewModelType = Type.GetType("NodeCalculator.ViewModels.Nodes." + x.GetType().Name + "ViewModel");
+                object[] viewModelArgs = new object[] { x };
+                return (NodeViewModel)Activator.CreateInstance(viewModelType, BindingFlags.CreateInstance, null, viewModelArgs, null);
             });
         }
 

@@ -20,6 +20,9 @@
         <DataTemplate DataType="{x:Type vm:PlusNodeViewModel}">
             <node:PlusNode />
         </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:MinusNodeViewModel}">
+            <node:MinusNode />
+        </DataTemplate>
         <DataTemplate DataType="{x:Type vm:ResultNodeViewModel}">
             <node:ResultNode />
         </DataTemplate>

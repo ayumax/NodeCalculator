@@ -15,6 +15,8 @@ namespace NodeCalculator.Models
 
         protected override double? Culculate(List<double?> PrevResults)
         {
+            if (PrevResults.Count == 0) return null;
+
             return PrevResults[0];
         }
     }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace NodeCalculator.Models
 {
@@ -16,9 +17,7 @@ namespace NodeCalculator.Models
 
         protected override double? Culculate(List<double?> PrevResults)
         {
-            if (PrevResults[0] == null || PrevResults[1] == null) return null;
-
-            return PrevResults[0] + PrevResults[1];
+            return PrevResults.Sum();
         }
     }
 }

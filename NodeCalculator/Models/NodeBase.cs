@@ -43,7 +43,11 @@ namespace NodeCalculator.Models
         public NodeBase()
         {
             this.PropertyChanged += NodeBase_PropertyChanged;
-        }
+
+            PrevNodes.CollectionChanged += (s, e) => Do(null);
+            NextNodes.CollectionChanged += (s, e) => Do(null);
+       }
+
 
         private void NodeBase_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
@@ -93,6 +97,8 @@ namespace NodeCalculator.Models
 
         public void ChangeConnectNodeNum(ObservableCollection<NodeConnectModel> Nodes, int NewNodeNum)
         {
+            if (NewNodeNum < 0) return;
+
             if (Nodes.Count > NewNodeNum)
             {
                 while (Nodes.Count != NewNodeNum)

@@ -1,29 +1,71 @@
 ﻿<UserControl x:Class="NodeCalculator.Views.Nodes.PlusNode"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:NodeCalculator.Views.Nodes"
-             xmlns:dd="urn:gong-wpf-dragdrop"
-             mc:Ignorable="d" 
-             xmlns:parts="clr-namespace:NodeCalculator.Views.NodeParts"
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <Border x:Name="nodeBorder" Background="LightGreen" BorderBrush="DarkGreen" BorderThickness="2" CornerRadius="5" Margin="0,10,0,10"/>
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+			 xmlns:local="clr-namespace:NodeCalculator.Views.Nodes"
+			 xmlns:dd="urn:gong-wpf-dragdrop"
+			 mc:Ignorable="d" 
+			 xmlns:parts="clr-namespace:NodeCalculator.Views.NodeParts"
+			 xmlns:helper="clr-namespace:NodeCalculator.Views.Helpers"
+			 d:DesignHeight="450" d:DesignWidth="800">
+	<Grid>
+		<Border x:Name="nodeBorder" Background="LightGreen" BorderBrush="DarkGreen" BorderThickness="2" CornerRadius="5" Margin="0,10,0,10"/>
 
-        
-        <Label Content="Plus" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+		
+		<Label Content="Plus" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
-        <Grid >
-            <Grid.ColumnDefinitions >
-                <ColumnDefinition />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
+		<ItemsControl ItemsSource="{Binding In}" >
+			<ItemsControl.ItemsPanel>
+				<ItemsPanelTemplate>
+					<Grid helper:GridHelpers.ColumnCount="{Binding InCount.Value}" helper:GridHelpers.RowCount="1" />
+				</ItemsPanelTemplate>
+			</ItemsControl.ItemsPanel>
+			<ItemsControl.ItemTemplate>
+				<DataTemplate>
+					<parts:NodeConnector ConnctColor="DarkGreen" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+				</DataTemplate>
+			</ItemsControl.ItemTemplate>
+			<ItemsControl.ItemContainerStyle>
+				<Style>
+					<Setter Property="Grid.Column" Value="{Binding ColumnIndex.Value}" />
+					<Setter Property="Grid.Row" Value="0" />
+				</Style>
+			</ItemsControl.ItemContainerStyle>
+		</ItemsControl>
+	   
 
-            <parts:NodeConnector DataContext="{Binding In[0]}" ConnctColor="DarkGreen" Grid.Column="0" VerticalAlignment="Top"/>
-            <parts:NodeConnector DataContext="{Binding In[1]}" ConnctColor="DarkGreen" Grid.Column="1" VerticalAlignment="Top"/>
-        </Grid>
+		<parts:NodeConnector DataContext="{Binding Out[0]}" ConnctColor="DarkGreen" />
 
-        <parts:NodeConnector DataContext="{Binding Out[0]}" ConnctColor="DarkGreen" />
-    </Grid>
+		<ToggleButton Name="tbWithPopup" Width="15" Height="15" Margin="0,10,0,10"
+					  HorizontalAlignment="Right" VerticalAlignment="Top"
+					  IsChecked="{Binding ElementName=inputPopup, Path=IsOpen}">
+			<ToggleButton.Style>
+				<Style TargetType="ToggleButton">
+					<Style.Triggers>
+						<DataTrigger Binding="{Binding ElementName=inputPopup, Path=IsOpen}" Value="True">
+							<Setter Property="IsHitTestVisible" Value="False" />
+						</DataTrigger>
+					</Style.Triggers>
+				</Style>
+			</ToggleButton.Style>
+			<Polygon Points="0,0 2,0.5, 0,1" Fill="DarkGreen" Stretch="Fill" />
+		</ToggleButton>
+
+		<Popup x:Name="inputPopup"
+			   PlacementTarget="{Binding ElementName=nodeBorder}"
+			   Placement="Right"
+			   IsOpen="{Binding IsInputOpen.Value}"
+			   AllowsTransparency="True"
+			   StaysOpen="False"
+			   Width="200">
+			<Border Background="LightGreen" BorderBrush="DarkGreen" BorderThickness="2" CornerRadius="5" Width="100" Height="35" >
+				<StackPanel Orientation="Horizontal">
+					<Button Content="-" Command="{Binding RemoveInputConnectionCommand}" Width="20" Height="20" Margin="5"/>
+					<Label Content="Input" VerticalAlignment="Center"/>
+					<Button Content="+" Command="{Binding AddInputConnectionCommand}" Width="20" Height="20"  Margin="5"/>
+				</StackPanel>
+			</Border>
+		</Popup>
+	</Grid>
 </UserControl>

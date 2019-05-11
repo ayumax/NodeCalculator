@@ -20,6 +20,8 @@ namespace NodeCalculator.ViewModels.Nodes
 
 
         public ReadOnlyReactiveCollection<NodeInConnectionViewModel> In { get; }
+        public ReactiveProperty<int> InCount { get; }
+
         public ReadOnlyReactiveCollection<NodeOutConnectionViewModel> Out { get; }
 
         public ReadOnlyReactiveCollection<NodeFixedConnectionViewModel> FixedConnection { get; }
@@ -27,6 +29,9 @@ namespace NodeCalculator.ViewModels.Nodes
         public ReactiveProperty<double?> Result { get; }
 
         public ReactiveProperty<bool> IsInputOpen { get; }
+
+        public ReactiveCommand AddInputConnectionCommand { get; }
+        public ReactiveCommand RemoveInputConnectionCommand { get; }
 
         public NodeBase InnerModel { get; private set; }
 
@@ -42,6 +47,12 @@ namespace NodeCalculator.ViewModels.Nodes
             Name = InnerModel.ToReactivePropertyAsSynchronized(x => x.Name).AddTo(container);
 
             In = InnerModel.PrevNodes.ToReadOnlyReactiveCollection(x => new NodeInConnectionViewModel(this, x));
+            InCount = new ReactiveProperty<int>(InnerModel.PrevNodes.Count);
+            InnerModel.PrevNodes.CollectionChanged += (s, e) =>
+            {
+                InCount.Value = InnerModel.PrevNodes.Count;
+                Width.Value = InCount.Value * 50;
+            };
 
             Out = InnerModel.NextNodes.ToReadOnlyReactiveCollection(x => new NodeOutConnectionViewModel(this, x));
 
@@ -51,6 +62,12 @@ namespace NodeCalculator.ViewModels.Nodes
             Result = InnerModel.ToReactivePropertyAsSynchronized(x => x.Result).AddTo(container);
 
             IsInputOpen = new ReactiveProperty<bool>(false);
+
+            AddInputConnectionCommand = new ReactiveCommand().AddTo(container);
+            AddInputConnectionCommand.Subscribe(() => InnerModel.ChangeConnectNodeNum(InnerModel.PrevNodes, InnerModel.PrevNodes.Count + 1));
+
+            RemoveInputConnectionCommand = new ReactiveCommand().AddTo(container);
+            RemoveInputConnectionCommand.Subscribe(() => InnerModel.ChangeConnectNodeNum(InnerModel.PrevNodes, InnerModel.PrevNodes.Count - 1));
         }
 
 

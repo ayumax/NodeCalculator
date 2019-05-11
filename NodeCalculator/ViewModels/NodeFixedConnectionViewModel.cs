@@ -38,9 +38,10 @@ namespace NodeCalculator.ViewModels
             LineToY = new ReactiveProperty<double>(0);
             Visible = new ReactiveProperty<Visibility>(Visibility.Hidden);
 
-            double oneAreaWidth = Node.Width.Value / Node.Out.Count;
-            Node.PositionX.Subscribe(x => LineFromX.Value = oneAreaWidth * InnerModel.ConnectIndex + oneAreaWidth / 2 + x);
+            Node.PositionX.Subscribe(x => UpdateLineFromX());
             Node.PositionY.Subscribe(x => LineFromY.Value = Node.Height.Value + x - 5);
+
+            Node.Width.Subscribe(x => UpdateLineFromX());
 
             Node.Out[InnerModel.ConnectIndex].ConnectNode.Subscribe(x => 
             {
@@ -69,6 +70,13 @@ namespace NodeCalculator.ViewModels
 
                
             });
+
+        }
+
+        private void UpdateLineFromX()
+        {
+            double oneAreaWidth = Parent.Width.Value / Parent.Out.Count;
+            LineFromX.Value = oneAreaWidth * InnerModel.ConnectIndex + oneAreaWidth / 2 + Parent.PositionX.Value;
         }
     }
 }

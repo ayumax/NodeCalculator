@@ -29,6 +29,8 @@ namespace NodeCalculator.ViewModels
 
         public ReactiveProperty<NodeConnectionViewModel> ConnectNode { get; } = new ReactiveProperty<NodeConnectionViewModel>();
 
+        public ReactiveProperty<int> ColumnIndex { get; }
+
         public NodeConnectionViewModel(NodeViewModel Node, NodeConnectModel nodeConnectModel)
         {
             Parent = Node;
@@ -40,7 +42,9 @@ namespace NodeCalculator.ViewModels
             LineToY = new ReactiveProperty<double>(0);
             Visible = new ReactiveProperty<Visibility>(Visibility.Hidden);
 
-            Node.PositionX.Subscribe(x => LineFromX.Value = Parent.Width.Value / 2 + x);         
+            Node.PositionX.Subscribe(x => LineFromX.Value = Parent.Width.Value / 2 + x);
+
+            ColumnIndex = new ReactiveProperty<int>(nodeConnectModel.ConnectIndex);
         }
 
         public virtual void DragOver(IDropInfo dropInfo)

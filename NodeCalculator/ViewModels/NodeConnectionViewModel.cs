@@ -52,6 +52,8 @@ namespace NodeCalculator.ViewModels
             {
                 BeziePathData.Value = $"M {LineFromX.Value},{LineFromY.Value} C {LineFromX.Value},{LineToY.Value} {LineToX.Value},{LineFromY.Value} {LineToX.Value},{LineToY.Value}";
             }).AddTo(container);
+
+            Node.Width.Subscribe(x => UpdateLineFromX());
         }
 
         public virtual void DragOver(IDropInfo dropInfo)
@@ -62,6 +64,11 @@ namespace NodeCalculator.ViewModels
         public virtual void Drop(IDropInfo dropInfo)
         {
         }
+
+        protected virtual void UpdateLineFromX()
+        {
+
+        }
     }
 
     class NodeInConnectionViewModel : NodeConnectionViewModel
@@ -71,8 +78,7 @@ namespace NodeCalculator.ViewModels
         {
             ConnectNode.Subscribe(x => InnerModel.ConnectNode = x?.Parent.InnerModel);
 
-            double oneAreaWidth = Parent.Width.Value / Parent.InnerModel.PrevNodes.Count;
-            Node.PositionX.Subscribe(x => LineFromX.Value = oneAreaWidth * nodeConnectModel.ConnectIndex + oneAreaWidth / 2 + x);
+            Node.PositionX.Subscribe(x => UpdateLineFromX());
             Node.PositionY.Subscribe(x => LineFromY.Value = 0 + x + 5);
         }
 
@@ -96,6 +102,12 @@ namespace NodeCalculator.ViewModels
 
             connection.ConnectNode.Value = this;
         }
+
+        protected override void UpdateLineFromX()
+        {
+            double oneAreaWidth = Parent.Width.Value / Parent.InnerModel.PrevNodes.Count;
+            LineFromX.Value = oneAreaWidth * InnerModel.ConnectIndex + oneAreaWidth / 2 + Parent.PositionX.Value;
+        }
     }
 
     class NodeOutConnectionViewModel : NodeConnectionViewModel
@@ -105,8 +117,7 @@ namespace NodeCalculator.ViewModels
         {
             ConnectNode.Subscribe(x => InnerModel.ConnectNode = x?.Parent.InnerModel);
 
-            double oneAreaWidth = Parent.Width.Value / Parent.InnerModel.NextNodes.Count;
-            Node.PositionX.Subscribe(x => LineFromX.Value = oneAreaWidth * nodeConnectModel.ConnectIndex + oneAreaWidth / 2 + x);
+            Node.PositionX.Subscribe(x => UpdateLineFromX());
             Node.PositionY.Subscribe(x => LineFromY.Value = Parent.Height.Value + x - 5);
         }
 
@@ -130,6 +141,12 @@ namespace NodeCalculator.ViewModels
             if (this.Parent == connection.Parent) return;
 
             ConnectNode.Value = connection;
+        }
+
+        protected override void UpdateLineFromX()
+        {
+            double oneAreaWidth = Parent.Width.Value / Parent.InnerModel.NextNodes.Count;
+            LineFromX.Value = oneAreaWidth * InnerModel.ConnectIndex + oneAreaWidth / 2 + Parent.PositionX.Value;
         }
     }
 }

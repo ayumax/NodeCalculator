@@ -59,6 +59,7 @@ namespace NodeCalculator.ViewModels
                 }
                 else
                 {
+
                     Visible.Value = Visibility.Visible;
 
                     var connectNode = x.Parent;

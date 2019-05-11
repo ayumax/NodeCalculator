@@ -6,9 +6,11 @@
              xmlns:local="clr-namespace:NodeCalculator.Views.Nodes"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Line X1="{Binding LineFromX.Value}" Y1="{Binding LineFromY.Value}"
-          X2="{Binding LineToX.Value}" Y2="{Binding LineToY.Value}"
-          Stroke="{Binding Color}"
-          StrokeThickness="2"
-          Visibility="{Binding Visible.Value}"/>
+    <Path 
+            Data="{Binding BeziePathData.Value}" 
+            Stroke="{Binding Color}" 
+            StrokeThickness="2"  
+            Visibility="{Binding Visible.Value}"
+            />
+
 </UserControl>

@@ -4,6 +4,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Media;
 using NodeCalculator.ViewModels.Nodes;
+using System.Reactive.Linq;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 using NodeCalculator.Models;
@@ -21,6 +22,8 @@ namespace NodeCalculator.ViewModels
         public ReactiveProperty<Visibility> Visible { get; }
 
         public SolidColorBrush Color { get; } = new SolidColorBrush(Colors.DarkGray);
+
+        public ReactiveProperty<string> BeziePathData { get; }
 
         protected NodeViewModel Parent;
         private List<IDisposable> disposables = new List<IDisposable>();
@@ -71,6 +74,11 @@ namespace NodeCalculator.ViewModels
                
             });
 
+            BeziePathData = new ReactiveProperty<string>();
+            Observable.Merge(LineFromX, LineFromY, LineToX, LineToY).Subscribe(x =>
+            {
+                BeziePathData.Value = $"M {LineFromX.Value},{LineFromY.Value} C {LineFromX.Value},{LineToY.Value} {LineToX.Value},{LineFromY.Value} {LineToX.Value},{LineToY.Value}";
+            }).AddTo(disposables);
         }
 
         private void UpdateLineFromX()

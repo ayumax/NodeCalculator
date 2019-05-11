@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
+using System.Reactive.Linq;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 using System.Windows.Media;
@@ -11,13 +12,15 @@ using NodeCalculator.ViewModels.Nodes;
 
 namespace NodeCalculator.ViewModels
 {
-    class NodeConnectionViewModel : IDropTarget
+    class NodeConnectionViewModel : ViewModelBase, IDropTarget
     {
         public ReactiveProperty<double> LineFromX { get; }
         public ReactiveProperty<double> LineFromY { get; }
 
         public ReactiveProperty<double> LineToX { get; }
         public ReactiveProperty<double> LineToY { get; }
+
+        public ReactiveProperty<string> BeziePathData { get; }
 
         public ReactiveProperty<Visibility> Visible { get; }
 
@@ -45,6 +48,12 @@ namespace NodeCalculator.ViewModels
             Node.PositionX.Subscribe(x => LineFromX.Value = Parent.Width.Value / 2 + x);
 
             ColumnIndex = new ReactiveProperty<int>(nodeConnectModel.ConnectIndex);
+
+            BeziePathData = new ReactiveProperty<string>();
+            Observable.Merge(LineFromX, LineFromY, LineToX, LineToY).Subscribe(x =>
+            {
+                BeziePathData.Value = $"M {LineFromX.Value},{LineFromY.Value} C {LineFromX.Value},{LineToY.Value} {LineToX.Value},{LineFromY.Value} {LineToX.Value},{LineToY.Value}";
+            }).AddTo(container);
         }
 
         public virtual void DragOver(IDropInfo dropInfo)

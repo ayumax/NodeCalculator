@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text;
+using System.Linq;
 using System.Xml.Serialization;
 
 namespace NodeCalculator.Models
@@ -103,7 +103,16 @@ namespace NodeCalculator.Models
             {
                 while (Nodes.Count != NewNodeNum)
                 {
-                    Nodes.RemoveAt(Nodes.Count - 1);
+                    var lastNodeConnection = Nodes.Last();
+                    if (lastNodeConnection.ConnectNode != null)
+                    {
+                        var lastNode = lastNodeConnection.ConnectNode;
+                        var removeConnectionNodes = Nodes == PrevNodes ? lastNode.NextNodes : lastNode.PrevNodes;
+                        RemoveTheReference(removeConnectionNodes, this);
+                    }
+
+                    
+                    Nodes.Remove(lastNodeConnection);
                 }
             }
             else
@@ -114,6 +123,17 @@ namespace NodeCalculator.Models
                     {
                         ConnectIndex = Nodes.Count
                     });
+                }
+            }
+        }
+
+        public void RemoveTheReference(ObservableCollection<NodeConnectModel> ConnectedNodes, NodeBase RemoveNode)
+        {
+            foreach(var connectedNode in ConnectedNodes)
+            {
+                if (connectedNode.ConnectNode == RemoveNode)
+                {
+                    connectedNode.ConnectNode = null;
                 }
             }
         }

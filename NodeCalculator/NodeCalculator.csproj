@@ -22,7 +22,7 @@
 
   <ItemGroup>
     <PackageReference Include="Extended.Wpf.Toolkit" Version="3.5.0" />
-    <PackageReference Include="gong-wpf-dragdrop" Version="2.0.1" />
+    <PackageReference Include="gong-wpf-dragdrop" Version="2.1.0-alpha0009" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.0.1" />
     <PackageReference Include="ReactiveProperty" Version="5.4.0" />
   </ItemGroup>

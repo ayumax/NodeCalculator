@@ -79,8 +79,6 @@ namespace NodeCalculator.ViewModels
                 case ToolBoxItemViewModel item:
                     {
                         dropInfo.Effects = DragDropEffects.Move;
-
-
                     }
                     break;
                 default:

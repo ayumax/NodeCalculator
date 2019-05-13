@@ -67,7 +67,7 @@ namespace NodeCalculator.ViewModels
                     connectNode.PositionX.Subscribe(pos => LineToX.Value = oneAreaWidth * x.InnerModel.ConnectIndex + oneAreaWidth / 2 + pos).AddTo(disposables);
                     connectNode.PositionY.Subscribe(pos => LineToY.Value = 5 + pos).AddTo(disposables);
 
-                    Node.InnerModel.NextNodes[InnerModel.ConnectIndex].ConnectNode = x.Parent.InnerModel;
+                    nodeConnectModel.ConnectNode = x.Parent.InnerModel;
                     x.Parent.InnerModel.PrevNodes[x.InnerModel.ConnectIndex].ConnectNode = Node.InnerModel;
                     x.Parent.InnerModel.Do(null);
                 }
@@ -80,6 +80,16 @@ namespace NodeCalculator.ViewModels
             {
                 BeziePathData.Value = $"M {LineFromX.Value},{LineFromY.Value} C {LineFromX.Value},{LineToY.Value} {LineToX.Value},{LineFromY.Value} {LineToX.Value},{LineToY.Value}";
             }).AddTo(disposables);
+
+            nodeConnectModel.ToReactivePropertyAsSynchronized(x => x.ConnectNode)
+                .AddTo(disposables)
+                .Subscribe(x =>
+                {
+                    if (x == null)
+                    {
+                        Visible.Value = Visibility.Hidden;
+                    }
+                });
         }
 
         private void UpdateLineFromX()

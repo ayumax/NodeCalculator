@@ -63,10 +63,10 @@
         
         <!-- Node用 -->
         <ItemsControl ItemsSource="{Binding Nodes}" 
-                  Background="Transparent"
-                  dd:DragDrop.IsDropTarget="True" 
-                  dd:DragDrop.DropHandler="{Binding}"
-                  >
+                Background="Transparent"
+                dd:DragDrop.IsDropTarget="True" 
+                dd:DragDrop.DropHandler="{Binding}"
+                >
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Canvas />
@@ -85,7 +85,7 @@
             </ItemsControl.ItemContainerStyle>
         </ItemsControl>
 
-       
+
     </Grid>
    
 

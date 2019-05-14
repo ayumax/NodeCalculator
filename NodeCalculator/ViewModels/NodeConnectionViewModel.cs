@@ -30,7 +30,7 @@ namespace NodeCalculator.ViewModels
 
         public NodeConnectModel InnerModel { get; private set; }
 
-        public ReactiveProperty<NodeConnectionViewModel> ConnectNode { get; } = new ReactiveProperty<NodeConnectionViewModel>();
+        public ReactiveProperty<NodeConnectionViewModel?> ConnectNode { get; } = new ReactiveProperty<NodeConnectionViewModel?>();
 
         public ReactiveProperty<int> ColumnIndex { get; }
 
@@ -54,6 +54,8 @@ namespace NodeCalculator.ViewModels
             }).AddTo(container);
 
             Node.Width.Subscribe(x => UpdateLineFromX());
+
+            ConnectNode.Subscribe(x => InnerModel.ConnectNode = x?.Parent.InnerModel);
         }
 
         public virtual void DragOver(IDropInfo dropInfo)
@@ -63,11 +65,35 @@ namespace NodeCalculator.ViewModels
 
         public virtual void Drop(IDropInfo dropInfo)
         {
+            var connection = dropInfo.Data as NodeConnectionViewModel;
+            if (connection == null) return;
+
+            Visible.Value = Visibility.Hidden;
+            connection.Visible.Value = Visibility.Hidden;
+
+            if (this.Parent == connection.Parent) return;         
+
+            Docking(connection);
         }
 
         protected virtual void UpdateLineFromX()
         {
 
+        }
+
+        public void Docking(NodeConnectionViewModel nodeConnectionViewModel)
+        {
+            if (ConnectNode.Value != null)
+            {
+                ConnectNode.Value.ConnectNode.Value = null;
+            }
+            ConnectNode.Value = nodeConnectionViewModel;
+
+            if (nodeConnectionViewModel.ConnectNode.Value != null)
+            {
+                nodeConnectionViewModel.ConnectNode.Value.ConnectNode.Value = null;
+            }
+            nodeConnectionViewModel.ConnectNode.Value = this;
         }
     }
 
@@ -76,8 +102,6 @@ namespace NodeCalculator.ViewModels
         public NodeInConnectionViewModel(NodeViewModel Node, NodeConnectModel nodeConnectModel)
             : base(Node, nodeConnectModel)
         {
-            ConnectNode.Subscribe(x => InnerModel.ConnectNode = x?.Parent.InnerModel);
-
             Node.PositionX.Subscribe(x => UpdateLineFromX());
             Node.PositionY.Subscribe(x => LineFromY.Value = 0 + x + 5);
         }
@@ -88,19 +112,6 @@ namespace NodeCalculator.ViewModels
             if (connection == null) return;
 
             dropInfo.Effects = DragDropEffects.Move;
-        }
-
-        public override void Drop(IDropInfo dropInfo)
-        {
-            var connection = dropInfo.Data as NodeOutConnectionViewModel;
-            if (connection == null) return;
-
-            Visible.Value = Visibility.Hidden;
-            connection.Visible.Value = Visibility.Hidden;
-
-            if (this.Parent == connection.Parent) return;
-
-            connection.ConnectNode.Value = this;
         }
 
         protected override void UpdateLineFromX()
@@ -115,8 +126,6 @@ namespace NodeCalculator.ViewModels
         public NodeOutConnectionViewModel(NodeViewModel Node, NodeConnectModel nodeConnectModel)
            : base(Node, nodeConnectModel)
         {
-            ConnectNode.Subscribe(x => InnerModel.ConnectNode = x?.Parent.InnerModel);
-
             Node.PositionX.Subscribe(x => UpdateLineFromX());
             Node.PositionY.Subscribe(x => LineFromY.Value = Parent.Height.Value + x - 5);
         }
@@ -127,20 +136,6 @@ namespace NodeCalculator.ViewModels
             if (connection == null) return;
 
             dropInfo.Effects = DragDropEffects.Move;
-        }
-
-        public override void Drop(IDropInfo dropInfo)
-        {
-            var connection = dropInfo.Data as NodeInConnectionViewModel;
-            if (connection == null) return;
-
-
-            Visible.Value = Visibility.Hidden;
-            connection.Visible.Value = Visibility.Hidden;
-
-            if (this.Parent == connection.Parent) return;
-
-            ConnectNode.Value = connection;
         }
 
         protected override void UpdateLineFromX()

@@ -107,10 +107,13 @@ namespace NodeCalculator.ViewModels
                     break;
                 case ToolBoxItemViewModel item:
                     {
-                        var newItem = (NodeBase)Activator.CreateInstance(item.NodeModelType);
-                        newItem.PositionX = dropInfo.DropPosition.X;
-                        newItem.PositionY = dropInfo.DropPosition.Y;
-                        mainModel.Nodes.Add(newItem);                      
+                        var newItem = Activator.CreateInstance(item.NodeModelType) as NodeBase;
+                        if (newItem != null)
+                        {
+                            newItem.PositionX = dropInfo.DropPosition.X;
+                            newItem.PositionY = dropInfo.DropPosition.Y;
+                            mainModel.Nodes.Add(newItem);
+                        }                        
                     }
                     break;
                 default:

@@ -14,5 +14,5 @@
 			dd:DragDrop.IsDropTarget="True" 
             dd:DragDrop.MinimumHorizontalDragDistance="0"
             dd:DragDrop.MinimumVerticalDragDistance="0"
-			dd:DragDrop.DropHandler="{Binding}"/>
+			dd:DragDrop.DropHandler="{Binding}" />
 </UserControl>

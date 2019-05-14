@@ -51,20 +51,14 @@ namespace NodeCalculator.ViewModels
                 if (x == null)
                 {
                     Visible.Value = Visibility.Hidden;
-
-                    foreach(var disposable in disposables)
-                    {
-                        disposable.Dispose();
-                    }
                 }
                 else
                 {
-
                     Visible.Value = Visibility.Visible;
 
                     var connectNode = x.Parent;
                     double oneAreaWidth = connectNode.Width.Value / connectNode.In.Count;
-                    connectNode.PositionX.Subscribe(pos => LineToX.Value = oneAreaWidth * x.InnerModel.ConnectIndex + oneAreaWidth / 2 + pos).AddTo(disposables);
+                    connectNode.PositionX.Subscribe(pos => LineToX.Value = oneAreaWidth * x!.InnerModel.ConnectIndex + oneAreaWidth / 2 + pos).AddTo(disposables);
                     connectNode.PositionY.Subscribe(pos => LineToY.Value = 5 + pos).AddTo(disposables);
 
                     nodeConnectModel.ConnectNode = x.Parent.InnerModel;

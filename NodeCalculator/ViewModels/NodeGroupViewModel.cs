@@ -24,9 +24,9 @@ namespace NodeCalculator.ViewModels
             Nodes = mainModel.Nodes.ToReadOnlyReactiveCollection(x =>
             {
                 // Model class name + "ViewModel" => ViewModel class name
-                Type viewModelType = Type.GetType("NodeCalculator.ViewModels.Nodes." + x.GetType().Name + "ViewModel");
+                Type viewModelType = Type.GetType("NodeCalculator.ViewModels.Nodes." + x.GetType().Name + "ViewModel")!;
                 object[] viewModelArgs = new object[] { x };
-                return (NodeViewModel)Activator.CreateInstance(viewModelType, BindingFlags.CreateInstance, null, viewModelArgs, null);
+                return (NodeViewModel)Activator.CreateInstance(viewModelType, BindingFlags.CreateInstance, null, viewModelArgs, null)!;
             });
         }
 

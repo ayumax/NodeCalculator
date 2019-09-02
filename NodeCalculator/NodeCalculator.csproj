@@ -5,7 +5,7 @@
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <UseWPF>true</UseWPF>
     <LangVersion>8.0</LangVersion>
-    <NullableContextOptions>enable</NullableContextOptions>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,7 +24,7 @@
     <PackageReference Include="Extended.Wpf.Toolkit" Version="3.5.0" />
     <PackageReference Include="gong-wpf-dragdrop" Version="2.1.0-alpha0009" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.0.1" />
-    <PackageReference Include="ReactiveProperty" Version="5.4.0" />
+    <PackageReference Include="ReactiveProperty" Version="6.1.2" />
   </ItemGroup>
 
   <ItemGroup>

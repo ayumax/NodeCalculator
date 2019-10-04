@@ -8,7 +8,7 @@ namespace NodeCalculator.Models
 {
     public class BindableBase : INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         protected void RaizePropertyChanged([CallerMemberName] string? propertyName = null)
         {
